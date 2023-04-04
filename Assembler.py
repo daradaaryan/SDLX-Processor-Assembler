@@ -2,7 +2,7 @@ tag_dic = {}
 
 opcodes = {
     'ADDI': '000000',
-    'SUBI': '000001',
+    'SUBI':  '000001',
     'ANDI' : '000010',
     'ORI'  : '000011',
     'XORI' : '000100',
@@ -40,22 +40,22 @@ funct_codes = {
 
      'ADD' : '000000',
      'SUB' : '000001',
-     'AND' : 'b000010',
-     'OR'  : 'b000011',
-     'XOR' : 'b000100',
-     'SLL' : 'b000101',
-     'SRL' : 'b000110',
-     'ROL' : 'b000111',
-     'ROR' : 'b001000',
-     'SLT' : 'b001001',
-     'SGT' : 'b001010',
-     'SLE' : 'b001011',
-     'SGE' : 'b001100',
-     'UGT' : 'b001101',
-     'ULT' : 'b001110',
-     'ULE' : 'b001111',
-     'UGE' : 'b010000',
-     'SRA' : 'b010001'
+     'AND' : '000010',
+     'OR'  : '000011',
+     'XOR' : '000100',
+     'SLL' : '000101',
+     'SRL' : '000110',
+     'ROL' : '000111',
+     'ROR' : '001000',
+     'SLT' : '001001',
+     'SGT' : '001010',
+     'SLE' : '001011',
+     'SGE' : '001100',
+     'UGT' : '001101',
+     'ULT' : '001110',
+     'ULE' : '001111',
+     'UGE' : '010000',
+     'SRA' : '010001'
 }
 
 Rtriadic_funcode = [     'ADD',
@@ -112,7 +112,7 @@ Rdiadic_opcode = ['BEZ',
 Jtype_opcode = ['J','JAL']
 
 
-# Define a function to assemble an R-type triadic instruction
+
 def assemble_Rtriadic(instruction, count):
     if(count == 4):
         t, opcode, rs, rt, rd = instruction.split(' ')
@@ -121,20 +121,20 @@ def assemble_Rtriadic(instruction, count):
     opcode_binary = '000000'
     funct_binary = funct_codes[opcode]
     
-    # Convert the opcode and funct code to binary
+
     opcode_binary = '000000'
     funct_binary = funct_codes[opcode]
     
-    # Convert the register numbers to binary
+
     rs_binary = format(int(rs[1:]), '05b')
     rt_binary = format(int(rt[1:]), '05b')
     rd_binary = format(int(rd[1:]), '05b')
     
-    # Build the 32-bit machine code instruction
-    machine_code = opcode_binary + rs_binary + rt_binary + rd_binary + '00000' + funct_binary
+
+    binary_code = opcode_binary + rs_binary + rt_binary + rd_binary + '00000' + funct_binary
     
-    # Return the machine code as a string
-    return machine_code
+
+    return binary_code
 
 
 def assemble_RItriadic(instruction, count):
@@ -149,9 +149,9 @@ def assemble_RItriadic(instruction, count):
     rd_binary = format(int(rd[1:]), '05b')
     imm_binary = format(int(imm), '016b')
 
-    machine_code = opcode_binary + rs_binary + rd_binary + imm_binary 
+    binary_code = opcode_binary + rs_binary + rd_binary + imm_binary 
 
-    return machine_code
+    return binary_code
 
 def assemble_RItriadic_LR(instruction, count):
     if(count == 4):
@@ -167,9 +167,9 @@ def assemble_RItriadic_LR(instruction, count):
     rd_binary = format(int(rd[1:]), '05b')
     imm_binary = format(int(imm), '016b')
 
-    machine_code = opcode_binary + rs_binary + rd_binary + imm_binary 
+    binary_code = opcode_binary + rs_binary + rd_binary + imm_binary 
 
-    return machine_code
+    return binary_code
 
 
 def assemble_Rdiadic(instruction, count):
@@ -186,23 +186,22 @@ def assemble_Rdiadic(instruction, count):
     rd_binary = format(int(rd[1:]), '05b')
     imm_binary = format(int(imm), '016b')
 
-    machine_code = opcode_binary + rs_binary + '00000' + imm_binary 
+    binary_code = opcode_binary + rs_binary + '00000' + imm_binary 
 
 
-    return machine_code
+    return binary_code
 
 
 def assemble_J(instruction):
-
     opcode, label = instruction.split(' ')
   
     opcode_binary = opcodes[opcode]
     target_address = tag_dic[label]
 
     target_address_binary = format(target_address, '026b')
-    machine_code = opcode_binary + target_address_binary
+    binary_code = opcode_binary + target_address_binary
 
-    return machine_code
+    return binary_code
 
 def assembler_line(instruction, j):
     count=0
@@ -211,7 +210,6 @@ def assembler_line(instruction, j):
          if instruction[i]==" ":
               count+=1
      
-  
     if(count == 3):
         opcode, rs, rt, rd = instruction.split(' ')
     elif(count == 4):
@@ -237,6 +235,9 @@ def assembler_line(instruction, j):
 
     elif opcode in Jtype_opcode:
       output = assemble_J(instruction)
+    else:
+        output = "Invalid Input"
+    
     return output
     
 
@@ -248,9 +249,6 @@ for i in range(n):
   inst.append(x)
 
 for i in range(n):
-  print(assembler_line(inst[i], i))
-
-
-
-
+    if(inst[i][0] != '#'):
+        print(assembler_line(inst[i], i))
 
