@@ -153,8 +153,8 @@ def assemble_RItriadic(instruction, count):
 
     return binary_code
 
-def assemble_RItriadic_LR(instruction, count):
-    if(count == 4):
+def assemble_RItriadic_LS(instruction, count):
+    if(count == 3):
         t, opcode, rd, imm = instruction.split(' ')
     else:
         opcode, rd, imm = instruction.split(' ')
@@ -211,6 +211,8 @@ def assembler_line(instruction):
      
     if(count == 3):
         opcode, rs, rt, rd = instruction.split(' ')
+        if rs in RItriadic_LS:
+            opcode = rs
 
     elif(count == 4):
         tag, opcode, rs, rt, rd = instruction.split(' ')
@@ -231,7 +233,7 @@ def assembler_line(instruction):
       output = assemble_RItriadic(instruction, count)
 
     elif opcode in RItriadic_LS:
-      output = assemble_RItriadic_LR(instruction, count)
+      output = assemble_RItriadic_LS(instruction, count)
     elif opcode in Rdiadic_opcode:
       output = assemble_Rdiadic(instruction, count)
 
@@ -253,6 +255,11 @@ def check_Tag(instruction, j):
         tag, opcode, rs, rt, rd = instruction.split(' ')
         tag, y = tag.split(':')
         tag_dic[tag] = j
+    elif(count == 3):
+        tag, opcode, rs, rt = instruction.split(' ')
+        if opcode in RItriadic_LS:
+            tag, y = tag.split(':')
+            tag_dic[tag] = j
 
 
 n = int(input())
