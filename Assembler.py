@@ -219,8 +219,10 @@ def assembler_line(instruction, j):
 
     elif(count == 1):
         opcode, imm = instruction.split(' ')
-    else:
+    elif(count == 2):
         opcode, rs, rd = instruction.split(' ')
+    else:
+        opcode = instruction
 
     if opcode in Rtriadic_funcode:
       output = assemble_Rtriadic(instruction, count)
