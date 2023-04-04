@@ -22,8 +22,8 @@ opcodes = {
     'LHI' :  '010010',
     'J'   :  '010011',
     'JAL' :  '010100',
-    'BEZ' :  '010101',
-    'BNEZ':  '010110',
+    'BEQ' :  '010101',
+    'BNEQ':  '010110',
     'SB'  :  '010111',
     'SW'  :  '011000',
     'SWH' :  '011001',
@@ -105,8 +105,8 @@ RItriadic_LS = ['LHI'  ,
     'LW'  ,
     'LWH']
 
-Rdiadic_opcode = ['BEZ',
-    'BNEZ','JR',
+Rdiadic_opcode = ['BEQ',
+    'BNEQ','JR',
     'JALR']
 
 Jtype_opcode = ['J','JAL']
@@ -177,7 +177,6 @@ def assemble_Rdiadic(instruction, count):
         t, opcode, rs, rd, imm = instruction.split(' ')
     else:
         opcode, rs, rd, imm = instruction.split(' ')
-
 
     opcode_binary = opcodes[opcode]
     funct_binary = '000000'
@@ -275,5 +274,4 @@ for i in range(n):
 for i in range(n):
     if(inst[i][0] != '#'):
         print(assembler_line(inst[i]))
-
 
