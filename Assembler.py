@@ -213,6 +213,8 @@ def assembler_line(instruction):
         opcode, rs, rt, rd = instruction.split(' ')
         if rs in RItriadic_LS:
             opcode = rs
+        elif rs in Rdiadic_opcode:
+            opcode = rs
 
     elif(count == 4):
         tag, opcode, rs, rt, rd = instruction.split(' ')
@@ -255,9 +257,13 @@ def check_Tag(instruction, j):
         tag, opcode, rs, rt, rd = instruction.split(' ')
         tag, y = tag.split(':')
         tag_dic[tag] = j
+
     elif(count == 3):
         tag, opcode, rs, rt = instruction.split(' ')
         if opcode in RItriadic_LS:
+            tag, y = tag.split(':')
+            tag_dic[tag] = j
+        elif opcode in Rdiadic_opcode:
             tag, y = tag.split(':')
             tag_dic[tag] = j
 
