@@ -174,17 +174,18 @@ def assemble_RItriadic_LR(instruction, count):
 
 def assemble_Rdiadic(instruction, count):
     if(count == 4):
-        t, opcode, rs, imm, rd = instruction.split(' ')
+        t, opcode, rs, rd, imm = instruction.split(' ')
     else:
-        opcode, rs, imm, rd = instruction.split(' ')
+        opcode, rs, rd, imm = instruction.split(' ')
 
 
     opcode_binary = opcodes[opcode]
     funct_binary = '000000'
+    imm2 = tag_dic[imm] 
 
     rs_binary = format(int(rs[1:]), '05b')
     rd_binary = format(int(rd[1:]), '05b')
-    imm_binary = format(int(imm), '016b')
+    imm_binary = format(int(imm2), '016b')
 
     binary_code = opcode_binary + rs_binary + '00000' + imm_binary 
 
@@ -203,7 +204,7 @@ def assemble_J(instruction):
 
     return binary_code
 
-def assembler_line(instruction, j):
+def assembler_line(instruction):
     count=0
     
     for i in range(0,len(instruction)):
@@ -212,15 +213,18 @@ def assembler_line(instruction, j):
      
     if(count == 3):
         opcode, rs, rt, rd = instruction.split(' ')
+
     elif(count == 4):
         tag, opcode, rs, rt, rd = instruction.split(' ')
-        tag, y = tag.split(':')
-        tag_dic[tag] = j
+    #    tag, y = tag.split(':')
+    #    tag_dic[tag] = j
 
     elif(count == 1):
         opcode, imm = instruction.split(' ')
-    else:
+    elif(count == 2):
         opcode, rs, rd = instruction.split(' ')
+    else:
+        opcode = instruction
 
     if opcode in Rtriadic_funcode:
       output = assemble_Rtriadic(instruction, count)
@@ -240,6 +244,18 @@ def assembler_line(instruction, j):
     
     return output
     
+def check_Tag(instruction, j):
+    count=0
+    
+    for i in range(0,len(instruction)):
+         if instruction[i]==" ":
+              count+=1
+     
+    if(count == 4):
+        tag, opcode, rs, rt, rd = instruction.split(' ')
+        tag, y = tag.split(':')
+        tag_dic[tag] = j
+
 
 n = int(input())
 inst = []
@@ -248,7 +264,16 @@ for i in range(n):
   x = str(input()) 
   inst.append(x)
 
+k = 0
 for i in range(n):
     if(inst[i][0] != '#'):
-        print(assembler_line(inst[i], i))
+        check_Tag(inst[i], k)
+        k = k + 1
+
+
+
+for i in range(n):
+    if(inst[i][0] != '#'):
+        print(assembler_line(inst[i]))
+
 
