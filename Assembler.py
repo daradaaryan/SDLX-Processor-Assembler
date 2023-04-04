@@ -22,8 +22,8 @@ opcodes = {
     'LHI' :  '010010',
     'J'   :  '010011',
     'JAL' :  '010100',
-    'BEQ' :  '010101',
-    'BNEQ':  '010110',
+    'BEZ' :  '010101',
+    'BNEZ':  '010110',
     'SB'  :  '010111',
     'SW'  :  '011000',
     'SWH' :  '011001',
@@ -105,8 +105,8 @@ RItriadic_LS = ['LHI'  ,
     'LW'  ,
     'LWH']
 
-Rdiadic_opcode = ['BEQ',
-    'BNEQ','JR',
+Rdiadic_opcode = ['BEZ',
+    'BNEZ','JR',
     'JALR']
 
 Jtype_opcode = ['J','JAL']
@@ -173,17 +173,16 @@ def assemble_RItriadic_LR(instruction, count):
 
 
 def assemble_Rdiadic(instruction, count):
-    if(count == 4):
-        t, opcode, rs, rd, imm = instruction.split(' ')
+    if(count == 3):
+        t, opcode, rs, imm = instruction.split(' ')
     else:
-        opcode, rs, rd, imm = instruction.split(' ')
+        opcode, rs, imm = instruction.split(' ')
 
     opcode_binary = opcodes[opcode]
     funct_binary = '000000'
     imm2 = tag_dic[imm] 
 
     rs_binary = format(int(rs[1:]), '05b')
-    rd_binary = format(int(rd[1:]), '05b')
     imm_binary = format(int(imm2), '016b')
 
     binary_code = opcode_binary + rs_binary + '00000' + imm_binary 
@@ -274,4 +273,8 @@ for i in range(n):
 for i in range(n):
     if(inst[i][0] != '#'):
         print(assembler_line(inst[i]))
+
+
+
+
 
