@@ -95,9 +95,10 @@ RItriadic_opcode = ['ADDI',
     'ULEI' ,
     'UGEI' ,
     'SRAI' ,
+    'LHI'
     ]
 
-RItriadic_LS = ['LHI'  ,
+RItriadic_LS = [
     'SB'   ,
     'SW'   ,
     'SWH' ,
@@ -286,8 +287,6 @@ for i in range(n):
 for i in range(n):
     if(inst[i][0] != '#'):
         print(assembler_line(inst[i]))
-
-
 
 
 
