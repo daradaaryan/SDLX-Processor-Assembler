@@ -1,4 +1,5 @@
 # SDLX-Processor-Assembler
+## Members: Aaryan Darad, Vaibhavi Sharma, Abhay Upparwal
 Computer Organization and Architecture (ES215) Course Project by Prof. Rajat Moona and Prof. Sameer Kulkarni.  
   
 We have done the complete implementation of a RISC-V SDLX Processor using Verilog which runs on a BASYS-3 FPGA Board.  
